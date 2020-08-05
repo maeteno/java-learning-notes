@@ -1,13 +1,14 @@
 package com.maeteno.jss.lambda;
 
-import com.maeteno.jss.utils.Utils;
+import java.util.function.Predicate;
 
 public class Main {
 
     public static void main(String[] args){
-        var list = Utils.mock(100);
-        var count = list.stream().filter(item -> item % 3 ==0).count();
+        lambda((String a) -> {System.out.println(a);return false;});
+    }
 
-        System.out.println(count);
+    public static void lambda(Predicate<String> p){
+        p.test("12233");
     }
 }

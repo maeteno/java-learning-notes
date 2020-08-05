@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Utils {
+    
+    private Utils(){}
 
     public static List<Integer> mock(int len){
         var list = new ArrayList<Integer>();
