@@ -89,3 +89,29 @@ Java 解决这些问题分别引入了如下功能：
 - 参数实例成员方法引用: 这里用的是类名引用的实例方法，这个类是Lambda型参列表的第一参数的类型，且剩下的参数和实例的成员方法签名一致
 
 ## 构造函数引用
+
+
+
+## Java中的函数式接口
+| 函数式接口        | 函数描述符  | 原始类型特化                                                                           |
+| ----------------- | ----------- | -------------------------------------------------------------------------------------- |
+| Predicate<T>      | T->boolean  | IntPredicate,LongPredicate,DoublePredicate                                             |
+| Consumer<T>       | T->void     | IntConsumer,LongConsumer,DoubleConsumer                                                |
+| Function<T,R>     | T->R        | [Function](#function-原始类型特化)                                                     |
+| Supplier<T>       | ()->T       | BooleanSupplier,IntSupplier,LongSupplier,DoubleSupplier                                |
+| UnaryOperator<T>  | T->T        | IntUnaryOperator,LongUnaryOperator,DoubleUnaryOperator                                 |
+| BinaryOperator<T> | (T,T)->T    | IntBinaryOperator,LongBinaryOperator,DoubleBinaryOperatorBiPredicate<L,R>(L,R)>boolean |
+| BiConsumer<T,U>   | (T,U)->void | ObjIntConsumer<T>,ObjLongConsumer<T>,ObjDoubleConsumer<T>                              |
+| BiFunction<T,U,R> | (T,U)>R     | ToIntBiFunction<T,U>,ToLongBiFunction<T,U>,ToDoubleBiFunction<T,U>                     |
+
+### Function 原始类型特化 
+- IntFunction<R>
+- IntToDoubleFunction
+- IntToLongFunction
+- LongFunction<R>
+- LongToDoubleFunction
+- LongToIntFunction
+- DoubleFunction<R>
+- ToIntFunction<T>
+- ToDoubleFunction<T>
+- ToLongFunction<T>
