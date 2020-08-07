@@ -76,10 +76,16 @@ Java 解决这些问题分别引入了如下功能：
 
 只要引用的方法和函数接口的签名一致即可引用，主要有类的静态方法引用，实例对象成员方法引用。以及笔记特殊的参数一的实例方法引用；
 
-| 类型                 | Lambda                                      | 方法引用                    | 说明                                                                                                       |
-| -------------------- | ------------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| 静态方法引用         | `(args)->ClassName.staticMethod(args)`      | `ClassName::staticMethod`   | Lambda 的方法签名和类的静态方法一致                                                                        |
-| 实例成员方法引用     | `(args)->expr.instanceMethod(args)`         | `expr::instanceMethod`      | Lambda 的方法签名和实例的成员方法签名一致                                                                  |
-| 参数实例成员方法引用 | `(args0，rest)->args0.instanceMethod(rest)` | `ClassName::instanceMethod` | 这里用的是类名引用的实例方法，这个类是Lambda型参列表的第一参数的类型，且剩下的参数和实例的成员方法签名一致 |
+| 类型                 | Lambda                                      | 方法引用                    |
+| -------------------- | ------------------------------------------- | --------------------------- |
+| 静态方法引用         | `(args)->ClassName.staticMethod(args)`      | `ClassName::staticMethod`   |
+| 实例成员方法引用     | `(args)->expr.instanceMethod(args)`         | `expr::instanceMethod`      |
+| 参数实例成员方法引用 | `(args0，rest)->args0.instanceMethod(rest)` | `ClassName::instanceMethod` |
+
+### 重点
+
+- 静态方法引用: Lambda 的方法签名和类的静态方法一致
+- 实例成员方法引用: Lambda 的方法签名和实例的成员方法签名一致
+- 参数实例成员方法引用: 这里用的是类名引用的实例方法，这个类是Lambda型参列表的第一参数的类型，且剩下的参数和实例的成员方法签名一致
 
 ## 构造函数引用
