@@ -57,6 +57,7 @@ Java 解决这些问题分别引入了如下功能：
 
 1. 匿名函数
 2. 函数接口
+   1. 默认方法
 3. 方法引用
 4. 构造函数引用
 
@@ -90,19 +91,31 @@ Java 解决这些问题分别引入了如下功能：
 
 ## 构造函数引用
 
+构造函数引用使用`new`关键字，形式为`ClassName::new`
 
+当一个函数接口的签名的形式是返回一个对象且型参列表和该对象的构造函数一致时可使用构造函数引用
+
+| 函数描述符(签名)    | Lambda                         | 函数引用       |
+| ------------------- | ------------------------------ | -------------- |
+| () -> ClassName     | () -> new ClassName()          | ClassName::new |
+| (T) -> ClassName    | (T t) -> new ClassName(t)      | ClassName::new |
+| (T...) -> ClassName | (T t...) -> new ClassName(t..) | ClassName::new |
+
+1. 型参列表可以匹配类的构造函数
+2. 返回类似是该类的类型
 
 ## Java中的函数式接口
-| 函数式接口        | 函数描述符  | 原始类型特化                                                                           |
-| ----------------- | ----------- | -------------------------------------------------------------------------------------- |
-| Predicate<T>      | T->boolean  | IntPredicate,LongPredicate,DoublePredicate                                             |
-| Consumer<T>       | T->void     | IntConsumer,LongConsumer,DoubleConsumer                                                |
-| Function<T,R>     | T->R        | [Function](#function-原始类型特化)                                                     |
-| Supplier<T>       | ()->T       | BooleanSupplier,IntSupplier,LongSupplier,DoubleSupplier                                |
-| UnaryOperator<T>  | T->T        | IntUnaryOperator,LongUnaryOperator,DoubleUnaryOperator                                 |
-| BinaryOperator<T> | (T,T)->T    | IntBinaryOperator,LongBinaryOperator,DoubleBinaryOperatorBiPredicate<L,R>(L,R)>boolean |
-| BiConsumer<T,U>   | (T,U)->void | ObjIntConsumer<T>,ObjLongConsumer<T>,ObjDoubleConsumer<T>                              |
-| BiFunction<T,U,R> | (T,U)>R     | ToIntBiFunction<T,U>,ToLongBiFunction<T,U>,ToDoubleBiFunction<T,U>                     |
+| 函数式接口        | 函数描述符     | 原始类型特化                                                       |
+| ----------------- | -------------- | ------------------------------------------------------------------ |
+| Predicate<T>      | T->boolean     | IntPredicate,LongPredicate,DoublePredicate                         |
+| Consumer<T>       | T->void        | IntConsumer,LongConsumer,DoubleConsumer                            |
+| Function<T,R>     | T->R           | [Function](#function-原始类型特化)                                 |
+| Supplier<T>       | ()->T          | BooleanSupplier,IntSupplier,LongSupplier,DoubleSupplier            |
+| UnaryOperator<T>  | T->T           | IntUnaryOperator,LongUnaryOperator,DoubleUnaryOperator             |
+| BinaryOperator<T> | (T,T)->T       | IntBinaryOperator,LongBinaryOperator,DoubleBinaryOperator          |
+| BiPredicate<L,R>  | (L,R)->boolean |                                                                    |
+| BiConsumer<T,U>   | (T,U)->void    | ObjIntConsumer<T>,ObjLongConsumer<T>,ObjDoubleConsumer<T>          |
+| BiFunction<T,U,R> | (T,U)>R        | ToIntBiFunction<T,U>,ToLongBiFunction<T,U>,ToDoubleBiFunction<T,U> |
 
 ### Function 原始类型特化 
 - IntFunction<R>
