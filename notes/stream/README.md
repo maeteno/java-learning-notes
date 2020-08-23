@@ -20,28 +20,30 @@ Stream 流，描述了数据在处理过程中采用了何种方式来处理数�
 
 ## 中间操作
 
-| 方法名    | 函数接口      | 签名         | 简介                           |
-| --------- | ------------- | ------------ | ------------------------------ |
-| filter    | Predicate<T>  | T -> boolean | 过滤数据，保留结果为true的数据 |
-| map       | Function<T,R> | T -> R       | 数据处理转换                   |
-| limit     | -             | -            | 限制获取多少个                 |
-| skip      | -             | -            | 限制跳过多少个                 |
-| takeWhile | Predicate<T>  | T -> boolean | [Java9]                        |
-| dropWhile | Predicate<T>  | T -> boolean | [Java9]                        |
+| 方法名    | 函数接口              | 签名                       | 简介                                         |
+| --------- | --------------------- | -------------------------- | -------------------------------------------- |
+| filter    | Predicate<T>          | T -> boolean               | 过滤数据，保留结果为true的数据               |
+| map       | Function<T,R>         | T -> R                     | 数据处理转换，数据映射，将数据转换为新的数据 |
+| flatMap   | Function<T,Stream<R>> | (T,Stream<R>) -> Stream<R> |                                              |
+| distinct  | -                     | -                          | 去重                                         |
+| limit     | -                     | -                          | 限制获取多少个                               |
+| skip      | -                     | -                          | 限制跳过多少个                               |
+| takeWhile | Predicate<T>          | T -> boolean               | [Java9]                                      |
+| dropWhile | Predicate<T>          | T -> boolean               | [Java9]                                      |
 
 ## 终端操作
 
-| 方法名    | 函数接口      | 签名      | 简介         |
-| --------- | ------------- | --------- | ------------ |
-| forEach   | Consumer<T>   | T -> void | 遍历循环处理 |
-| toArray   | -             | -         |              |
-| reduce    | -             | -         | -            |
-| collect   | -             | -         | -            |
-| min       | Comparator<T> | -         | -            |
-| max       | -             | -         | -            |
-| count     | -             | -         | -            |
-| findFirst | -             | -         | -            |
-| findAny   | -             | -         | -            |
-| anyMatch  | -             | -         | -            |
-| allMatch  | -             | -         | -            |
-| noneMatch | -             | -         | -            |
+| 方法名    | 函数接口         | 签名      | 简介         |
+| --------- | ---------------- | --------- | ------------ |
+| forEach   | Consumer<T>      | T -> void | 遍历循环处理 |
+| toArray   | -                | -         |              |
+| reduce    | -                | -         | -            |
+| collect   | Collector<T,A,R> | -         | -            |
+| min       | Comparator<T>    | -         | -            |
+| max       | -                | -         | -            |
+| count     | -                | -         | -            |
+| findFirst | -                | -         | -            |
+| findAny   | -                | -         | -            |
+| anyMatch  | -                | -         | -            |
+| allMatch  | -                | -         | -            |
+| noneMatch | -                | -         | -            |
