@@ -31,12 +31,12 @@ public class ForkJoinSumCalcuator extends RecursiveTask<Long> {
         }
 
         ForkJoinSumCalcuator leftTask = new ForkJoinSumCalcuator(numbers, start, start + length / 2);
-        leftTask.fork();
+        leftTask.fork(); // 异步执行第一个任务
 
         ForkJoinSumCalcuator rightTask = new ForkJoinSumCalcuator(numbers, start + length / 2, end);
 
-        Long rightResult = rightTask.compute();
-        Long leftResult = leftTask.join();
+        Long rightResult = rightTask.compute(); // 同步执行第二个任务
+        Long leftResult = leftTask.join(); // 获取第一个任务的结果，如果没有完成就阻塞等待
 
         return leftResult + rightResult;
 
