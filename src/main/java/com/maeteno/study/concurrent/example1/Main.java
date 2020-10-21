@@ -1,5 +1,8 @@
 package com.maeteno.study.concurrent.example1;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Main {
     public static void main(String[] args) {
         RunnableImpl r = new RunnableImpl("Demo-1");
@@ -14,7 +17,7 @@ public class Main {
         Thread t3 = new Thread(() -> {
             int index = 0;
             while (index++ < 10) {
-                System.out.println("Lambda => Index:" + index);
+                log.info("Lambda => Index:" + index);
                 try {
                     Thread.sleep(50);
                 } catch (InterruptedException e) {
@@ -24,6 +27,6 @@ public class Main {
         });
         t3.start();
 
-        System.out.println("Main Class End");
+        log.info("Main Class End");
     }
 }
