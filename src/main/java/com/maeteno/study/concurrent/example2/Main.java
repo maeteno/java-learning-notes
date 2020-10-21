@@ -1,6 +1,10 @@
 package com.maeteno.study.concurrent.example2;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Main {
+
     public static void main(String[] args) {
         Thread tt1 = new ThreadImpl();
         tt1.start();
@@ -8,6 +12,6 @@ public class Main {
         Thread tt2 = new ThreadImpl();
         tt2.start();
 
-        System.out.println("Main Class End");
+        log.info("Main Class End");
     }
 }

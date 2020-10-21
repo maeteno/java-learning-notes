@@ -1,10 +1,13 @@
 package com.maeteno.study.optional.example1;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Optional;
 
+@Slf4j
 public class Main {
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
         Person person = new Person();
         Optional<Person> optPerson = Optional.ofNullable(person);
 
@@ -14,6 +17,6 @@ public class Main {
                 .map(Insurance::getName)
                 .orElse("Unknow");
 
-        System.out.println(name);
+        log.info(name);
     }
 }

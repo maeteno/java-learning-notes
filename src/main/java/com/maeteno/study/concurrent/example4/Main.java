@@ -1,10 +1,13 @@
 package com.maeteno.study.concurrent.example4;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Slf4j
 public class Main {
 
     public static void main(String[] args) {
@@ -14,13 +17,13 @@ public class Main {
         var sum = new AtomicInteger();
 
         var index = 0;
-        while (index++ < 1000) {
+        while (index++ < 100) {
             pool.execute(() -> {
-                System.out.println("Pool: " + sum.addAndGet(1));
+                log.info("Pool: " + sum.addAndGet(1));
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
-                    System.out.println("ERROR");
+                    log.info("ERROR");
                     e.printStackTrace();
                 }
             });
@@ -28,10 +31,10 @@ public class Main {
 
         var count = pool.getActiveCount();
 
-        System.out.println(count);
+        log.info("{}", count);
 
         pool.shutdown();
 
-        System.out.println("END");
+        log.info("END");
     }
 }

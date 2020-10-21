@@ -20,6 +20,7 @@
         <mockito.version>2.0.2-beta</mockito.version>
         <lombok.version>1.18.16</lombok.version>
         <kotlin.version>1.4.10</kotlin.version>
+        <mockito.version>2.0.2-beta</mockito.version>
     </properties>
 
     <dependencies>
@@ -38,6 +39,12 @@
             <groupId>io.reactivex.rxjava3</groupId>
             <artifactId>rxjava</artifactId>
             <version>3.0.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
         </dependency>
 
         <dependency>
