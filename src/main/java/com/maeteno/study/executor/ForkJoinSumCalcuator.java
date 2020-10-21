@@ -4,13 +4,10 @@ import java.util.concurrent.RecursiveTask;
 
 public class ForkJoinSumCalcuator extends RecursiveTask<Long> {
 
-    private final long[] numbers;
-
-    private final int start;
-
-    private final int end;
-
     public static final long THRESHOLD = 1_000;
+    private final long[] numbers;
+    private final int start;
+    private final int end;
 
     public ForkJoinSumCalcuator(long[] numbers) {
         this(numbers, 0, numbers.length);

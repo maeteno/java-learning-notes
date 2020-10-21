@@ -30,7 +30,7 @@ public class Demo {
         cf1.thenApplyAsync((i) -> {
             System.out.print("thenApplyAsync:");
             System.out.println(i);
-            return  i + 1;
+            return i + 1;
         });
 
         cf2.whenCompleteAsync((v, e) -> {

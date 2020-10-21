@@ -18,11 +18,11 @@ public class Demo3 {
 
         // 两个CompletableFuture执行异步查询:
         CompletableFuture<Double> cfFetchFromSina = cfQuery.thenApplyAsync((code) -> {
-            System.out.println("code1: "+code);
+            System.out.println("code1: " + code);
             return fetchPrice((String) code, "https://finance.sina.com.cn/price/");
         });
         CompletableFuture<Double> cfFetchFrom163 = cfQuery.thenApplyAsync((code) -> {
-            System.out.println("code2: "+code);
+            System.out.println("code2: " + code);
             return fetchPrice((String) code, "https://money.163.com/price/");
         });
 
@@ -30,9 +30,7 @@ public class Demo3 {
         CompletableFuture<Object> cfFetch = CompletableFuture.anyOf(cfFetchFromSina, cfFetchFrom163);
 
         // 最终结果:
-        cfFetch.thenAccept((result) -> {
-            System.out.println("price: " + result);
-        });
+        cfFetch.thenAccept((result) -> System.out.println("price: " + result));
 
         cfFetch.get();
         // 主线程不要立刻结束，否则CompletableFuture默认使用的线程池会立刻关闭:
