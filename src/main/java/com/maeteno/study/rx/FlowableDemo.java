@@ -14,7 +14,7 @@ public class FlowableDemo {
     public static void main(String[] args) {
         log.info("Flowable Demo");
 
-        ParallelFlowable<Integer> parallelFlowable = Flowable.range(1, 100).parallel();
+        ParallelFlowable<Integer> parallelFlowable = Flowable.range(1, 10).parallel();
 
         Disposable subscribe = parallelFlowable
                 .runOn(Schedulers.computation())
@@ -25,11 +25,15 @@ public class FlowableDemo {
                     return i;
                 })
                 .sequential()
-                .subscribe(i -> {
-                    Thread t2 = Thread.currentThread();
-                    Thread.sleep(5L);
-                    log.info("subscribe ==> {}:{} Value: {}", t2.getName(), t2.getId(), i);
-                });
+                .subscribe(
+                        i -> {
+                            Thread t2 = Thread.currentThread();
+                            Thread.sleep(5L);
+                            log.info("subscribe ==> {}:{} Value: {}", t2.getName(), t2.getId(), i);
+                        },
+                        err -> log.error("Error :{}\n{}", err.getMessage(), err.getStackTrace()),
+                        () -> log.info("onComplete")
+                );
 
         log.info("{}", subscribe);
 
