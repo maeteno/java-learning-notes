@@ -9,6 +9,16 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Demo {
+    public static void main(String[] args) {
+        Disposable subscribe = Observable.just("Hello Word").subscribe(
+                log::info,
+                (t) -> log.error(t.getMessage()),
+                () -> log.info("onComplete")
+        );
+
+        Observable.just("Hello Word").subscribe(Obs.builder().build());
+    }
+
     @Slf4j
     @Builder
     public static class Obs implements Observer<String> {
@@ -31,15 +41,5 @@ public class Demo {
         public void onComplete() {
             log.info("Obs onComplete");
         }
-    }
-
-    public static void main(String[] args) {
-        Disposable subscribe = Observable.just("Hello Word").subscribe(
-                log::info,
-                (t) -> log.error(t.getMessage()),
-                () -> log.info("onComplete")
-        );
-
-        Observable.just("Hello Word").subscribe(Obs.builder().build());
     }
 }
