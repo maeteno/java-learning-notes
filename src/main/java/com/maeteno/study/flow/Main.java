@@ -8,6 +8,13 @@ public class Main {
     }
 
     private static Flow.Publisher<TempInfo> getTemperatures(String town) {
-        return subscriber -> subscriber.onSubscribe(new TempSubscription(subscriber, town));
+
+        //  subscriber -> subscriber.onSubscribe(new TempSubscription(subscriber, town));
+        return new Flow.Publisher<TempInfo>() {
+            @Override
+            public void subscribe(Flow.Subscriber<? super TempInfo> subscriber) {
+                subscriber.onSubscribe(new TempSubscription(subscriber, town));
+            }
+        };
     }
 }
