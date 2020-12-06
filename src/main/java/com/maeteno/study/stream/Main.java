@@ -10,7 +10,9 @@ public class Main {
 
     public static void main(String[] args) {
         var list = Utils.mock(100);
-        var newList = list.stream().skip(10).limit(30)
+        var newList = list.stream()
+                .skip(10)
+                .limit(30)
                 .filter((Integer i) -> i % 2 == 0)
                 .sorted()
                 .peek((Integer i) -> log.info("{}", i))
