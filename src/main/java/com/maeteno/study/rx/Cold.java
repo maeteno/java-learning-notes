@@ -13,8 +13,12 @@ public class Cold {
     @SneakyThrows
     public static void main(String[] args) {
         Observable<Long> observable = Observable.create(
-                (ObservableOnSubscribe<Long>) emitter -> Observable.interval(10, TimeUnit.MICROSECONDS, Schedulers.computation()).take(Integer.MAX_VALUE
-                ).subscribe(emitter::onNext)).observeOn(Schedulers.newThread());
+                (ObservableOnSubscribe<Long>) emitter ->
+                        Observable.interval(10, TimeUnit.MICROSECONDS, Schedulers.computation())
+                                .take(Integer.MAX_VALUE)
+                                .subscribe(emitter::onNext)
+            ).observeOn(Schedulers.newThread()
+        );
 
         observable.subscribe(aLong -> log.info("--> Sub1: {}", aLong));
         observable.subscribe(aLong -> log.info("===> Sub2: {}", aLong));
