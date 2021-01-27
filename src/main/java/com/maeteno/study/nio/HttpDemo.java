@@ -10,10 +10,10 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
 
+// http://ifeve.com/socket-channel/
 // http://www.java2s.com/Tutorials/Java/Socket/How_to_use_Java_SocketChannel_create_a_HTTP_client.htm
 public class HttpDemo {
     public static void main(String[] args) throws IOException {
-
         URL u = new URL("http://i1.ygimg.cn");
         String host = u.getHost();
         int port = 80;
@@ -26,8 +26,12 @@ public class HttpDemo {
 
         ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
 
-        String request = "GET " + path + " HTTP/1.1\r\n" + "User-Agent: HTTPGrab\r\n"
-                + "Accept: text/*\r\n" + "Connection: close\r\n" + "Host: " + host + "\r\n" + "\r\n";
+        String request = "GET " + path + " HTTP/1.1\r\n"
+                + "Host: " + host + "\r\n"
+                + "Accept: image/*\r\n"
+                + "Connection: close\r\n"
+                + "User-Agent: HTTPGrab\r\n"
+                + "\r\n";
 
         ByteBuffer header = ByteBuffer.wrap(request.getBytes(StandardCharsets.US_ASCII));
         channel.write(header);
@@ -56,6 +60,7 @@ public class HttpDemo {
         }
 
         out.write(byteOut.toByteArray());
+
         out.close();
         channel.close();
     }
