@@ -49,9 +49,9 @@ public class DownloadImg {
             SelectionKey selectionKey = socketChannel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
 
             String path = path1;
-//            if (index % 5 == 0) {
-//                path = path2;
-//            }
+            if (index % 5 == 0) {
+                path = path2;
+            }
 
             selectionKey.attach(
                     Info.builder()
@@ -69,15 +69,13 @@ public class DownloadImg {
                 SelectionKey key = keyIterator.next();
                 SocketChannel socketChannel = (SocketChannel) key.channel();
                 Info info = (Info) key.attachment();
-                log.info("Info:{}", info);
 
                 if (info.isSend() && key.isReadable()) {
-                    log.info("isReadable");
+                    log.info("isReadable:{}", info.getName());
 
-                    ByteBuffer buffer = ByteBuffer.allocate(8192);
+                    ByteBuffer buffer = ByteBuffer.allocate(1024);
                     ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
                     FileOutputStream out = new FileOutputStream(info.getName());
-
                     try {
                         // 根据连续换行符截取消息体
                         int tag = 0;
@@ -102,7 +100,8 @@ public class DownloadImg {
                     } catch (IOException exception) {
                         log.error("图片下载失败：", exception);
                     } finally {
-                        out.close();
+                        byteOut.close();
+                        socketChannel.close();
                         socketChannel.close();
                     }
                 }
@@ -114,7 +113,7 @@ public class DownloadImg {
                             + "Host: " + host + "\r\n"
                             + "Accept: image/*\r\n"
                             + "Connection: close\r\n"
-                            + "User-Agent: HTTPGrab\r\n"
+                            + "User-Agent: JavaNIO\r\n"
                             + "\r\n";
 
                     ByteBuffer header = ByteBuffer.wrap(request.getBytes(StandardCharsets.US_ASCII));
