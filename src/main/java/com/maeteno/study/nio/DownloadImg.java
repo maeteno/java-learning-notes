@@ -15,17 +15,28 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class DownloadImg {
 
-    @Builder
     @Data
-    public static class Info {
+    @Builder
+    public static class Img {
         private String path;
         private String name;
+    }
+
+    @Data
+    @Builder
+    public static class Info {
+        private List<Img> img;
+        private int index;
         private boolean isSend;
     }
 
@@ -43,23 +54,26 @@ public class DownloadImg {
         String path2 = "/pics/adidasneo/2019/101231471/101231471_01_001_f.png?2";
 
         int index = 0;
-        while (index++ < 100) {
+        while (index < 100) {
             SocketChannel socketChannel = SocketChannel.open(remote);
             socketChannel.configureBlocking(false);
             SelectionKey selectionKey = socketChannel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
 
-            String path = path1;
-            if (index % 5 == 0) {
-                path = path2;
-            }
+            Info info = Info.builder()
+                    .index(0)
+                    .isSend(false)
+                    .build();
 
-            selectionKey.attach(
-                    Info.builder()
-                            .path(path)
-                            .name("00" + index + ".png")
-                            .isSend(false)
-                            .build()
-            );
+            List<Img> imges = new ArrayList<>();
+            for (int i = 0; i < 10; i++) {
+                imges.add(Img.builder()
+                        .path(path1)
+                        .name(index + "-00.png")
+                        .build());
+                index++;
+            }
+            info.setImg(imges);
+            selectionKey.attach(info);
         }
 
         while (selector.select(10L) > 0) {
@@ -70,49 +84,78 @@ public class DownloadImg {
                 SocketChannel socketChannel = (SocketChannel) key.channel();
                 Info info = (Info) key.attachment();
 
+                List<Img> imges = info.getImg();
+                int index1 = info.getIndex();
+                Img img = imges.get(index1);
+
                 if (info.isSend() && key.isReadable()) {
-                    log.info("isReadable:{}", info.getName());
+                    log.info("isReadable:{}", img.getName());
 
                     ByteBuffer buffer = ByteBuffer.allocate(1024);
-                    ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-                    FileOutputStream out = new FileOutputStream(info.getName());
+                    ByteArrayOutputStream body = new ByteArrayOutputStream();
+                    ByteArrayOutputStream header = new ByteArrayOutputStream();
+                    FileOutputStream out = new FileOutputStream(img.getName());
                     try {
                         // 根据连续换行符截取消息体
                         int tag = 0;
+                        int length = 0;
+                        int bodyLength = 0;
                         while (socketChannel.read(buffer) != -1) {
                             buffer.flip();
+                            if (tag >= 4 && length == 0) {
+                                String reg = "Content-Length: (\\d*)";
+                                Matcher m = Pattern.compile(reg).matcher(header.toString());
+                                if (m.find()) {
+                                    length = Integer.valueOf(m.group(1));
+                                }
+                            }
+
+                            if (length > 0 && bodyLength >= length) {
+                                log.info("read end...");
+                                break;
+                            }
+
                             while (buffer.hasRemaining()) {
                                 byte b = buffer.get();
                                 if (tag >= 4) {
-                                    byteOut.write(b);
+                                    bodyLength++;
+                                    body.write(b);
                                 } else {
                                     if (b == '\r' || b == '\n') {
                                         tag += 1;
                                     } else {
                                         tag = 0;
                                     }
+                                    header.write(b);
                                 }
                             }
-
                             buffer.clear();
                         }
-                        out.write(byteOut.toByteArray());
+                        out.write(body.toByteArray());
+                        info.setSend(false);
                     } catch (IOException exception) {
                         log.error("图片下载失败：", exception);
                     } finally {
-                        byteOut.close();
-                        socketChannel.close();
-                        socketChannel.close();
+                        body.close();
+                        header.close();
+                        index1++;
+
+                        if (index1 >= imges.size()) {
+                            socketChannel.close();
+                            info.setSend(true);
+                        } else {
+                            info.setIndex(index1);
+                        }
                     }
                 }
 
                 if (!info.isSend() && key.isWritable()) {
                     log.info("isWritable");
 
-                    String request = "GET " + info.getPath() + " HTTP/1.1\r\n"
+                    String request = "GET " + img.getPath() + " HTTP/1.1\r\n"
                             + "Host: " + host + "\r\n"
                             + "Accept: image/*\r\n"
-                            + "Connection: close\r\n"
+                            + "Connection: keep-alive\r\n"
                             + "User-Agent: JavaNIO\r\n"
                             + "\r\n";
 
