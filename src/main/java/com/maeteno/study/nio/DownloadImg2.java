@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DownloadImg2 {
     public static void main(String[] args) throws IOException {
         long start = System.currentTimeMillis();
-        String path1 = "/pics/adidasneo/2019/101231471/101231471_01_f.png?2";
+        String path1 = "/converse/2018/100969542/100969542_05_l.jpg?5";
         String path2 = "/pics/adidasneo/2019/101231471/101231471_01__9_f.png?2";
 
         int index = 0;
@@ -31,7 +31,7 @@ public class DownloadImg2 {
                     .build());
         }
 
-        try (Download download = new Download("http://i1.ygimg.cn", 5)) {
+        try (Download download = new Download("http://i1.ygimg.cn/converse/2018/100969542/100969542_05_l.jpg?5", 5)) {
             List<ByteArrayOutputStream> list = download.down(images);
             AtomicInteger i = new AtomicInteger();
             list.forEach(item -> {
