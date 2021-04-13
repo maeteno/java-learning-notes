@@ -1,4 +1,4 @@
-package com.maeteno.study.jvm;
+package com.maeteno.study.str;
 
 public class InternDemo {
 
