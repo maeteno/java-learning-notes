@@ -4,3 +4,7 @@ out/
 .vscode/
 *.log
 target/
+.classpath
+.factorypath
+.project
+.settings/
