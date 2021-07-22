@@ -14,9 +14,8 @@ public class Demo {
 
         InputStream inputStream = process.getInputStream();
 
-        //log.info("{}", inputStream.readAllBytes());
+        log.info("{}", inputStream.readAllBytes());
 
-        System.out.println(inputStream.readAllBytes()
-        );
+        System.out.println(inputStream.readAllBytes());
     }
 }
